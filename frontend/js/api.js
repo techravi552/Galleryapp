@@ -11,7 +11,8 @@ const API_BASE =
   window.location.hostname === 'localhost' ||
   window.location.hostname === '127.0.0.1'
     ? `${window.location.protocol}//${window.location.hostname}:5000/api`
-    : 'https://gallery-wvv0.onrender.com/api';
+    : 'https://galleryapp-7lqd.onrender.com/api';
+    // : 'https://gallery-wvv0.onrender.com/api';
 
 class ApiError extends Error {
   constructor(message, status, data) {
