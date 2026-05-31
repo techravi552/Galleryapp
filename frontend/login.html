@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Sign in to Ravi Gallery." />
+  <meta name="theme-color" content="#070810" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+  <link rel="stylesheet" href="/css/login.css" />
+  <title>Sign In — Ravi Gallery</title>
+</head>
+<body>
+
+  <div class="login-wrapper">
+
+    <!-- Brand -->
+    <div class="login-brand">
+      <span class="login-logo">Ravi Gallery</span>
+      <p class="login-tagline">✦ Private Collection</p>
+    </div>
+
+    <!-- Card -->
+    <div class="login-card">
+      <h1>Welcome <em>back</em></h1>
+      <p class="login-subtitle">Sign in to access your gallery.</p>
+
+      <!-- Error box (hidden by default) -->
+      <div class="login-error hidden" id="loginError" role="alert" aria-live="assertive">
+        <span class="login-error__icon">⚠️</span>
+        <span class="login-error__text" id="loginErrorText">Invalid email or password.</span>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" novalidate autocomplete="on">
+
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Address</label>
+          <input
+            class="form-input"
+            type="email"
+            id="loginEmail"
+            name="email"
+            autocomplete="email"
+            placeholder="your@email.com"
+            inputmode="email"
+            required
+            aria-required="true"
+            aria-describedby="loginError"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <div class="input-wrap">
+            <input
+              class="form-input has-toggle"
+              type="password"
+              id="loginPassword"
+              name="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+              aria-required="true"
+              aria-describedby="loginError"
+            />
+            <button
+              type="button"
+              class="btn-toggle-pass"
+              id="togglePassword"
+              aria-label="Show password"
+              title="Show password"
+            >👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login" id="loginBtn">
+          <div class="btn-spinner hidden" id="loginBtnSpinner" aria-hidden="true"></div>
+          <span id="loginBtnText">Sign In</span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <p class="login-footer">🔒 Secured · Private access only</p>
+
+  </div>
+
+  <script src="/js/login.js"></script>
+</body>
+</html>

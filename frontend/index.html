@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Ravi Gallery — A premium mobile-first image gallery. Discover, share, and celebrate photography." />
+  <meta name="theme-color" content="#070810" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Ravi Gallery" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ravi Gallery" />
+  <meta property="og:description" content="A premium mobile-first image gallery platform." />
+  <meta property="og:type" content="website" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+
+  <link rel="stylesheet" href="/css/main.css" />
+  <title>Ravi Gallery</title>
+</head>
+<body>
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav__logo" aria-label="Ravi Gallery Home">Ravi Gallery</a>
+    <div class="nav__actions">
+      <button class="btn-theme" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+      <button class="nav__hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+  <nav class="nav-drawer" id="navDrawer" aria-label="Drawer navigation">
+    <a href="/" class="nav-drawer__link active" aria-current="page">
+      <span class="icon">🏠</span> Home
+    </a>
+    <a href="/gallery.html" class="nav-drawer__link">
+      <span class="icon">🖼️</span> Gallery
+    </a>
+    <a href="/upload.html" class="nav-drawer__link">
+      <span class="icon">📤</span> Upload
+    </a>
+    <a href="/profile.html" class="nav-drawer__link">
+      <span class="icon">👤</span> Profile
+    </a>
+  </nav>
+
+  <!-- ── Main ───────────────────────────────────────────── -->
+  <main class="page">
+    <div class="container">
+
+      <!-- Hero -->
+      <section class="hero">
+        <p class="hero__eyebrow">✦ Visual Stories</p>
+        <h1 class="hero__title">
+          Where every<br/><em>frame</em> speaks.
+        </h1>
+        <p class="hero__sub">
+          A personal gallery platform to showcase, share, and celebrate photography in its purest form.
+        </p>
+        <div class="flex gap-sm mt-lg" style="flex-wrap:wrap">
+          <a href="/gallery.html" class="btn btn-primary">
+            <span>🖼️</span> Explore Gallery
+          </a>
+          <a href="/upload.html" class="btn btn-ghost">
+            <span>📤</span> Upload Photo
+          </a>
+        </div>
+      </section>
+
+      <!-- Search -->
+      <section class="py-lg" aria-label="Search">
+        <div class="search-bar" role="search">
+          <span class="icon" aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search photos, tags..."
+            aria-label="Search photos"
+            autocomplete="off"
+          />
+          <button class="btn-icon" id="searchBtn" aria-label="Submit search">→</button>
+        </div>
+        <!-- Filter pills -->
+        <div class="filter-bar mt-md" role="group" aria-label="Sort filters">
+          <button class="pill active" data-sort="newest">✨ Newest</button>
+          <button class="pill" data-sort="popular">🔥 Popular</button>
+          <button class="pill" data-sort="oldest">🕰️ Oldest</button>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section aria-label="Photo gallery">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Latest <em>Captures</em></h2>
+            <p class="section-subtitle" id="imageCount">Loading…</p>
+          </div>
+          <a href="/gallery.html" class="btn btn-ghost text-sm">View All →</a>
+        </div>
+
+        <!-- Skeleton placeholders -->
+        <div class="masonry-grid" id="skeletonGrid" aria-hidden="true">
+          <div class="skeleton-item"><div class="skeleton" style="height:240px"></div></div>
+          <div class="skeleton-item"><div class="skeleton" style="height:180px"></div></div>
+          <div class="skeleton-item"><div class="skeleton" style="height:300px"></div></div>
+          <div class="skeleton-item"><div class="skeleton" style="height:200px"></div></div>
+          <div class="skeleton-item"><div class="skeleton" style="height:260px"></div></div>
+          <div class="skeleton-item"><div class="skeleton" style="height:170px"></div></div>
+        </div>
+
+        <!-- Actual gallery -->
+        <div class="masonry-grid hidden" id="galleryGrid" role="list"></div>
+
+        <!-- Empty state -->
+        <div class="empty-state hidden" id="emptyState">
+          <span class="empty-state__icon">📷</span>
+          <h3 class="empty-state__title">No photos yet</h3>
+          <p class="empty-state__text">Be the first to share a beautiful moment.</p>
+          <a href="/upload.html" class="btn btn-primary">Upload First Photo</a>
+        </div>
+
+        <!-- Infinite scroll sentinel -->
+        <div class="load-sentinel" id="loadSentinel" aria-hidden="true">
+          <div class="spinner hidden" id="loadSpinner"></div>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ── Lightbox ────────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="lightbox__topbar">
+      <span class="lightbox__title" id="lbTitle"></span>
+      <div class="lightbox__controls">
+        <button class="lb-btn" id="lbLike" aria-label="Like image" title="Like">♡</button>
+        <button class="lb-btn" id="lbComment" aria-label="Comments" title="Comments">💬</button>
+        <button class="lb-btn" id="lbDownload" aria-label="Download image" title="Download">⬇</button>
+        <button class="lb-btn" id="lbShare" aria-label="Share image" title="Share">↗</button>
+        <button class="lb-btn" id="lbClose" aria-label="Close viewer" title="Close">✕</button>
+      </div>
+    </div>
+    <div class="lightbox__stage" id="lbStage">
+      <button class="lightbox__nav prev" id="lbPrev" aria-label="Previous image">‹</button>
+      <img class="lightbox__img" id="lbImg" src="" alt="" draggable="false" />
+      <button class="lightbox__nav next" id="lbNext" aria-label="Next image">›</button>
+      <div class="lightbox__panel" id="lbPanel">
+        <div id="lbCommentsList"></div>
+        <div id="lbNoComments" class="text-center text-muted text-sm py-lg">No comments yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Comments Modal ─────────────────────────────────── -->
+  <div class="modal-overlay" id="commentModal" role="dialog" aria-modal="true" aria-label="Comments">
+    <div class="modal">
+      <div class="modal__handle"></div>
+      <div class="modal__header">
+        <h3 class="modal__title">Comments</h3>
+        <button class="lb-btn" id="closeCommentModal" aria-label="Close comments">✕</button>
+      </div>
+      <div class="modal__body" id="commentModalList"></div>
+      <div class="modal__footer">
+        <input class="form-input" id="commentAuthorInput" placeholder="Your name (optional)" style="max-width:130px" />
+        <input class="form-input" id="commentTextInput" placeholder="Add a comment…" style="flex:1" />
+        <button class="btn btn-primary btn-icon" id="submitComment" aria-label="Post comment">↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast Container ────────────────────────────────── -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ── PWA Banner ─────────────────────────────────────── -->
+  <div class="pwa-banner" id="pwaBanner">
+    <span style="font-size:2rem">📱</span>
+    <div class="pwa-banner__text">
+      <div class="pwa-banner__title">Add to Home Screen</div>
+      <div class="pwa-banner__sub">Install Ravi Gallery for a better experience</div>
+    </div>
+    <div class="pwa-banner__actions">
+      <button class="btn btn-primary btn-icon" id="pwaInstall" aria-label="Install app">✓</button>
+      <button class="btn btn-ghost btn-icon" id="pwaDismiss" aria-label="Dismiss">✕</button>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/pwa.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
